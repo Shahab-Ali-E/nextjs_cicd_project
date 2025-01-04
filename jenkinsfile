@@ -1,0 +1,25 @@
+pipeline {
+    agent any
+    stages {
+        stage('Build Docker Image') {
+            steps {
+                script {
+                    // Define the image name with a unique build ID
+                    def imageName = "nextjs_cicd_pipline_devops"
+
+                    // Build the Docker image using the Dockerfile in your project
+                    sh "docker build -t ${imageName} ."
+                }
+            }
+        }
+        
+        stage('Run Docker Container') {
+            steps {
+                script {
+                    // Run the Docker container in detached mode, binding port 3000
+                    sh "docker run -d --name nextjs_cicd_pipline_devops_con -p 3000:3000 nextjs_cicd_pipline_devops"
+                }
+            }
+        }
+    }
+}
